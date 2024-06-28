@@ -1,8 +1,17 @@
+stop_pipelines:
+  stage: stop_pipelines
+  script:
     - echo "Stopping previous pipelines"
     - apk add --no-cache curl jq
     - |
+      #скрипт который найдёт все запущенные pipeline по названии ветки(ref) и остановит их.
       if [ -n "$CI_COMMIT_REF_NAME" ]; then
         curl --header "PRIVATE-TOKEN: ${RUNNER_TOKEN}" \
         "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/pipelines?ref=${CI_COMMIT_REF_NAME}" | jq -r '.[].id' | xargs -I {} curl \
         --request POST --header "PRIVATE-TOKEN: ${RUNNER_TOKEN}" "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/pipelines/{}/cancel"
       fi
+  only:
+    - branches
+  when: manual
+  except:
+    - main
