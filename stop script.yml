@@ -1,5 +1,5 @@
 stop_pipelines:
-  stage: stop_pipelines
+  # stage: stop_pipelines
   script:
     - echo "Stopping previous pipelines"
     - apk add --no-cache curl jq
