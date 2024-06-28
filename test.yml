@@ -1,0 +1,4 @@
+remote_job_github:
+  script:
+    - echo "Задание 4-го урока"
+    - echo "Этот скрипт из удаленного repo"
